@@ -61,14 +61,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         # Added in 3.28; OLD is deprecated now
         args.append(self.define("CMAKE_POLICY_DEFAULT_CMP0152", "NEW"))
 
-        # DEBUG REMOVE ME
-        args.append(
-            self.define(
-                "FETCHCONTENT_SOURCE_DIR_NWX_CMAKE",
-                "/home/zachcran/workspaces/nwchemex/repos_dev/nwxcmake",
-            )
-        )
-
         return args
 
 
