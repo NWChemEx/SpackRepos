@@ -58,7 +58,7 @@ class NwchemexIntegrals(NWChemExBasePybindings):
         sticky=True,
     )
 
-    pkg.depends_on("libint")
+    pkg.depends_on("libint@2.1.0:")
     # Although we have a variant, technically it is not a direct dependency
     # of this package
     # pkg.depends_on("sigma+eigen", when="+sigma")
