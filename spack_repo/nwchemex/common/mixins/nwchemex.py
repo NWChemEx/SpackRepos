@@ -41,7 +41,7 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
     pkg.depends_on("cxx", type="build")
 
     # Test dependencies
-    pkg.depends_on("catch2", type="test")
+    pkg.depends_on("catch2", type=("build", "test"))
 
     def cmake_args(self):
         args = super().cmake_args()
