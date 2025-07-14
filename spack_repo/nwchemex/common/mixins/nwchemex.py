@@ -102,7 +102,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
             # TODO: Allow the user to configure this?
             args.append(
                 "-DNWX_MODULE_DIRECTORY={}".format(
-                    self.prefix.lib.join(self.project).join("python")
+                    self.prefix.lib.join(self.project.lower()).join("python")
                 )
             )
 
