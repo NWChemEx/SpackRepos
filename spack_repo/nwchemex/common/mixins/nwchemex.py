@@ -29,6 +29,15 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         sticky=True,
     )
 
+    # TODO: Not working as of spack 1.0.0.dev0 (e8a72d97b5b463a711a2e5c758ebbf3cef54d851)
+    # pkg.variant(
+    #     "cxxstd",
+    #     default="17",
+    #     values=["17"],
+    #     multi=False,
+    #     description="Use the specified C++ standard when building",
+    # )
+
     pkg.depends_on("cxx", type="build")
 
     # Test dependencies
@@ -44,6 +53,10 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
                 ),
                 self.define_from_variant("BUILD_SHARED_LIBS", "shared"),
                 self.define_from_variant("BUILD_DOCS", "docs"),
+                # TODO: Not working as of spack 1.0.0.dev0
+                #       (e8a72d97b5b463a711a2e5c758ebbf3cef54d851)
+                # self.define("CMAKE_CXX_STANDARD", "cxxstd"),
+                self.define("CMAKE_CXX_STANDARD", "17"),
                 self.define("BUILD_TESTING", self.run_tests),
             ]
         )
