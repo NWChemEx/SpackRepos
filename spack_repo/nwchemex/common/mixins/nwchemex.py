@@ -37,6 +37,7 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         values=("17",),
         multi=False,
         description="Use the specified C++ standard when building",
+        sticky=True,
     )
 
     pkg.depends_on("cxx", type="build")
