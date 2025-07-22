@@ -99,11 +99,18 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
         )
 
         if self.spec.satisfies("+pybindings"):
-            # TODO: Allow the user to configure this?
-            args.append(
-                "-DNWX_MODULE_DIRECTORY={}".format(
-                    self.prefix.lib.join(self.project.lower()).join("python")
+            if "NWX_MODULE_DIRECTORY" in os.environ:
+                args.append(
+                    self.define(
+                        "NWX_MODULE_DIRECTORY",
+                        os.environ["NWX_MODULE_DIRECTORY"],
+                    )
                 )
-            )
+            # TODO: Allow the user to configure this?
+            # args.append(
+            #     "-DNWX_MODULE_DIRECTORY={}".format(
+            #         self.prefix.lib.join(self.project.lower()).join("python")
+            #     )
+            # )
 
         return args
