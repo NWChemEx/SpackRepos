@@ -58,7 +58,10 @@ class NwchemexIntegrals(NWChemExBasePybindings):
         sticky=True,
     )
 
-    pkg.depends_on("libint@2.1.0:")
+    # The "tune" variant is not available prior to v2.6
+    # TODO: A value of "tune=none" or any of the molgw-* options likely break
+    # the unit tests, but I don't know how to add them as conflicts yet.
+    pkg.depends_on("libint@2.6:")
     # Although we have a variant, technically it is not a direct dependency
     # of this package
     # pkg.depends_on("sigma+eigen", when="+sigma")
