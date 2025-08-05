@@ -76,6 +76,9 @@ class NwchemexScf(NWChemExBasePybindings):
     # TODO: Create this package
     # pkg.depends_on("gauxc")
     pkg.depends_on("eigen")
+    # The "tune" variant is not available prior to v2.6
+    # TODO: A value of "tune=none" or any of the molgw-* options likely break
+    # the unit tests, but I don't know how to add them as conflicts yet.
     pkg.depends_on("libint@2.6:", when="+tamm")
     pkg.depends_on("mpi")
     # pkg.depends_on("tamm", when="+tamm")
