@@ -21,7 +21,6 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
-
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -62,11 +61,12 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
     # Runtime dependencies
     pkg.depends_on("boost")
     pkg.depends_on("eigen")
-    pkg.depends_on("sigma+eigen", when="+sigma")
 
     # First-party
     pkg.depends_on("nwchemex-utilities")
     pkg.depends_on("nwchemex-parallelzone")
+
+    pkg.depends_on("sigma+eigen", when="+sigma")
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
