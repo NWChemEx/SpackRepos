@@ -1,5 +1,4 @@
 from spack.package import join_path
-from spack.package_base import PackageBase
 from spack_repo.builtin.build_systems.cmake import CMakePackage
 
 

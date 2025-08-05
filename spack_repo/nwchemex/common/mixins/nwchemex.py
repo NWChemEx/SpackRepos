@@ -3,7 +3,7 @@ import os
 from spack import package as pkg
 from spack.package_base import PackageBase
 
-from . import CMaizePackage
+from .cmaize import CMaizePackage
 
 
 class NWChemExBaseGit(PackageBase):
