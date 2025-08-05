@@ -21,7 +21,6 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
-
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -52,13 +51,12 @@ class NwchemexScf(NWChemExBasePybindings):
         sha256="b175c15e8c814cd288817c970f4e049c7eab248975ff7c891d8927d7555d0cd8",
     )
 
-    # TODO: Should this still be here for SimDE propagation?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
+    pkg.variant(
+        "sigma",
+        default=False,
+        description="Enable Sigma for uncertainty tracking",
+        sticky=True,
+    )
     # TODO: Handle this turned on
     pkg.variant(
         "tamm",
@@ -72,12 +70,20 @@ class NwchemexScf(NWChemExBasePybindings):
         sticky=False,
     )
 
+    # For building GauXC, I think
+    pkg.depends_on("c", type="build")
+
     # TODO: Create this package
     # pkg.depends_on("gauxc")
     pkg.depends_on("eigen")
-    pkg.depends_on("libint", when="+tamm")
+    pkg.depends_on("libint@2.6:", when="+tamm")
+    pkg.depends_on("mpi")
     # pkg.depends_on("tamm", when="+tamm")
     # pkg.depends_on("exachem", when="+tamm")
+
+    # Although we have a variant, technically it is not a direct dependency
+    # of this package
+    # pkg.depends_on("sigma+eigen", when="+sigma")
 
     # First-party
     pkg.depends_on("nwchemex-simde")
@@ -95,9 +101,12 @@ class NwchemexScf(NWChemExBasePybindings):
         args = super().cmake_args()
 
         args.extend(
-            self.define_from_variant(
-                "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-            ),
+            [
+                self.define_from_variant(
+                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
+                ),
+                self.define_from_variant("ENABLE_SIGMA", "sigma"),
+            ]
         )
 
         return args
