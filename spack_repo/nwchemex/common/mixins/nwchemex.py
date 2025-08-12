@@ -76,12 +76,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         # DEBUG REMOVE ME
         args.append(
             self.define(
-                "FETCHCONTENT_SOURCE_DIR_NWX_CMAKE",
-                "/home/zachcran/workspaces/nwchemex/repos_dev/nwxcmake",
-            )
-        )
-        args.append(
-            self.define(
                 "CMAKE_VERBOSE_MAKEFILE",
                 True,
             )
