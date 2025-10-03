@@ -81,6 +81,7 @@ class NwchemexScf(NWChemExBasePybindings):
     # the unit tests, but I don't know how to add them as conflicts yet.
     pkg.depends_on("libint@2.6:", when="+tamm")
     pkg.depends_on("mpi")
+    pkg.depends_on("py-numpy")
     # pkg.depends_on("tamm", when="+tamm")
     # pkg.depends_on("exachem", when="+tamm")
 
