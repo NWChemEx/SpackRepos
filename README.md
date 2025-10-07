@@ -45,6 +45,11 @@ git pull
 git checkout <commit|tag>
 ```
 
+NOTE: Spack may have an undocumented update command now. The following worked for me with Spack `1.0.0.dev0 (b63f793f74c672eaf4768b7a5a711c83882bbebd)`:
+```bash
+spack repo update
+```
+
 ### Spack <1.0.0
 
 Updating with Spack <1.0.0 is approximately the same as >=1.0.0, and must be done by manually updating the cloned GitHub repository. The following commands will update *all* `nwchemex.*` sub-repos at once. You do not need to run this separately for each `nwchemex.*` sub-repo!
@@ -108,3 +113,7 @@ For more information, see the Spack's [Search Order and Overriding Packages](htt
 ## Helpful Spack Commands
 
 For a broader list of helpful Spack repository management commands, see Spack's [The `spack repo` Command](https://spack.readthedocs.io/en/latest/repositories.html#the-spack-repo-command).
+
+### Developing Packages in a Spack Environment
+
+https://spack.readthedocs.io/en/latest/environments.html#developing-packages-in-a-spack-environment

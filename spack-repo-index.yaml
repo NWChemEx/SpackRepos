@@ -4,5 +4,6 @@
 repo_index:
   # Relative paths from project root to repos
   paths:
+  - spack_repo/nwchemex/common
   - spack_repo/nwchemex/core
   - spack_repo/nwchemex/overrides
