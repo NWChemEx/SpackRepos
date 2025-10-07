@@ -64,7 +64,16 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
 
     # First-party
     pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
+    pkg.depends_on(
+        "nwchemex-parallelzone~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-parallelzone+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
 
     pkg.depends_on("sigma+eigen", when="+sigma")
 

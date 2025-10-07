@@ -76,6 +76,12 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         # DEBUG REMOVE ME
         args.append(
             self.define(
+                "FETCHCONTENT_SOURCE_DIR_NWX_CMAKE",
+                "/home/zachcran/workspaces/nwchemex/repos_dev/nwxcmake",
+            )
+        )
+        args.append(
+            self.define(
                 "CMAKE_VERBOSE_MAKEFILE",
                 True,
             )
@@ -87,13 +93,17 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
 class NWChemExBasePybindings(NWChemExBaseCXX):
 
     pkg.variant(
-        "pybindings",
+        "python",
         default=False,
-        description="Build the Python bindings with Pybind11",
+        description="Build the Python bindings",
         sticky=True,
     )
 
-    pkg.depends_on("py-pybind11", when="+pybindings")
+    # https://spack.readthedocs.io/en/latest/build_systems/pythonpackage.html#extends-vs-depends-on
+    pkg.extends("python", when="+python")
+    # TODO: decouple from python 3.13
+    pkg.depends_on("python@3.13", when="+python")
+    pkg.depends_on("py-pybind11", when="+python")
 
     def cmake_args(self):
         args = super().cmake_args()
@@ -101,25 +111,20 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
         args.extend(
             [
                 self.define_from_variant(
-                    "BUILD_PYBIND11_PYBINDINGS", "pybindings"
+                    "BUILD_PYBIND11_PYBINDINGS", "python"
                 ),
-                self.define_from_variant("PYBIND11_FINDPYTHON", "pybindings"),
+                self.define_from_variant("PYBIND11_FINDPYTHON", "python"),
             ]
         )
 
-        if self.spec.satisfies("+pybindings"):
-            if "NWX_MODULE_DIRECTORY" in os.environ:
-                args.append(
-                    self.define(
-                        "NWX_MODULE_DIRECTORY",
-                        os.environ["NWX_MODULE_DIRECTORY"],
-                    )
+        if self.spec.satisfies("+python"):
+            args.append(
+                self.define(
+                    "NWX_MODULE_DIRECTORY",
+                    # lib64 is used for platlib from Python package
+                    # TODO: Decouple this from Python 3.13
+                    self.prefix.lib64.join("python3.13").join("site-packages"),
                 )
-            # TODO: Allow the user to configure this?
-            # args.append(
-            #     "-DNWX_MODULE_DIRECTORY={}".format(
-            #         self.prefix.lib.join(self.project.lower()).join("python")
-            #     )
-            # )
+            )
 
         return args
