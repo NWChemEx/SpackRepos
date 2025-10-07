@@ -63,7 +63,7 @@ class NwchemexPluginplay(NWChemExBasePybindings):
     pkg.depends_on("rocksdb", when="+rocksdb")
     # First-party
     pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
+    pkg.depends_on("nwchemex-parallelzone", type=("build", "link", "run"))
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(

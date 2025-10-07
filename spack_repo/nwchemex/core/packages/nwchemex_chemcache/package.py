@@ -21,7 +21,6 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
-
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -48,7 +47,7 @@ class NwchemexChemcache(NWChemExBasePybindings):
     pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
     pkg.license("Apache-2.0", checked_by="zachcran")
 
-    pkg.version("generated_data", branch="generated_data")
+    pkg.version("generated_data", branch="generated_data", preferred=True)
 
     # Versions from git tags
     pkg.version(
