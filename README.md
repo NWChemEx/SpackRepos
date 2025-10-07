@@ -113,3 +113,7 @@ For more information, see the Spack's [Search Order and Overriding Packages](htt
 ## Helpful Spack Commands
 
 For a broader list of helpful Spack repository management commands, see Spack's [The `spack repo` Command](https://spack.readthedocs.io/en/latest/repositories.html#the-spack-repo-command).
+
+### Developing Packages in a Spack Environment
+
+https://spack.readthedocs.io/en/latest/environments.html#developing-packages-in-a-spack-environment
