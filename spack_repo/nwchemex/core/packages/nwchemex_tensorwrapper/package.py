@@ -74,6 +74,11 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
         type=("build", "link", "run"),
         when="+python",
     )
+    pkg.depends_on(
+        "py-numpy",
+        type=("build", "link", "run"),
+        when="+python",
+    )
 
     pkg.depends_on("sigma+eigen", when="+sigma")
 
