@@ -123,7 +123,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
                     "NWX_MODULE_DIRECTORY",
                     # lib64 is used for platlib from Python package
                     # TODO: Decouple this from Python 3.13
-                    self.prefix.lib64.join("python3.13").join("site-packages"),
+                    self.prefix.lib.join("python3.13").join("site-packages"),
                 )
             )
 
