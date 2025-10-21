@@ -101,8 +101,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
 
     # https://spack.readthedocs.io/en/latest/build_systems/pythonpackage.html#extends-vs-depends-on
     pkg.extends("python", when="+python")
-    # TODO: decouple from python 3.13
-    pkg.depends_on("python@3.13", when="+python")
+    pkg.depends_on("python@3:", when="+python")
     pkg.depends_on("py-pybind11", when="+python")
 
     def cmake_args(self):
@@ -122,8 +121,9 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
                 self.define(
                     "NWX_MODULE_DIRECTORY",
                     # lib64 is used for platlib from Python package
-                    # TODO: Decouple this from Python 3.13
-                    self.prefix.lib.join("python3.13").join("site-packages"),
+                    self.prefix.lib.join(
+                        "python{}".format(self.spec["python"].version[:-1])
+                    ).join("site-packages"),
                 )
             )
 

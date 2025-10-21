@@ -59,8 +59,26 @@ class NwchemexSimde(NWChemExBasePybindings):
     )
 
     # First-party
-    pkg.depends_on("nwchemex-chemist", type=("build", "link", "run"))
-    pkg.depends_on("nwchemex-pluginplay", type=("build", "link", "run"))
+    pkg.depends_on(
+        "nwchemex-chemist+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-chemist~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-pluginplay+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-pluginplay~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     pkg.depends_on("sigma+eigen", when="+sigma")
 
