@@ -63,12 +63,6 @@ class NwchemexScf(NWChemExBasePybindings):
         default=False,
         description="Build modules that rely on TAMM/Exachem",
     )
-    pkg.variant(
-        "experimental",
-        default=False,
-        description="Enable experimental features",
-        sticky=False,
-    )
 
     # For building GauXC, I think
     pkg.depends_on("c", type="build")
@@ -82,6 +76,7 @@ class NwchemexScf(NWChemExBasePybindings):
     pkg.depends_on("libint@2.6:", when="+tamm")
     pkg.depends_on("mpi")
     pkg.depends_on("py-numpy")
+    pkg.depends_on("libxc")
     # pkg.depends_on("tamm", when="+tamm")
     # pkg.depends_on("exachem", when="+tamm")
 
@@ -115,9 +110,6 @@ class NwchemexScf(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_variant(
-                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-                ),
                 self.define_from_variant("ENABLE_SIGMA", "sigma"),
             ]
         )

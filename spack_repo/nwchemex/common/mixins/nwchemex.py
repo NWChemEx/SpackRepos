@@ -101,8 +101,16 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
 
     # https://spack.readthedocs.io/en/latest/build_systems/pythonpackage.html#extends-vs-depends-on
     pkg.extends("python", when="+python")
-    pkg.depends_on("python@3:", when="+python")
-    pkg.depends_on("py-pybind11@3:", when="+python")
+    pkg.depends_on(
+        "py-pybind11@3:",
+        type=("build", "link", "run", "test"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "python@3:",
+        type=("build", "link", "run", "test"),
+        when="+python",
+    )
 
     def cmake_args(self):
         args = super().cmake_args()

@@ -69,7 +69,7 @@ class NwchemexChemcache(NWChemExBasePybindings):
         sticky=False,
     )
 
-    # Runtime dependencies
+    pkg.depends_on("py-requests")
 
     # First-party
     pkg.depends_on(

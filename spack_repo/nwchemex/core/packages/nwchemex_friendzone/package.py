@@ -66,8 +66,8 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         sticky=False,
     )
 
-    pkg.depends_on("py-ase")
-    pkg.depends_on("nwchem")
+    pkg.depends_on("py-ase", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", type=("build", "link", "run"))
 
     # First-party
     pkg.depends_on(

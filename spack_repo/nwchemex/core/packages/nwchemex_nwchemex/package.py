@@ -72,13 +72,6 @@ class NwchemexNwchemex(NWChemExBasePybindings):
         sticky=False,
     )
 
-    # TODO: Create this package
-    # pkg.depends_on("gauxc")
-    pkg.depends_on("eigen")
-    pkg.depends_on("libint", when="+tamm")
-    # pkg.depends_on("tamm", when="+tamm")
-    # pkg.depends_on("exachem", when="+tamm")
-
     # First-party
     pkg.depends_on(
         "nwchemex-friendzone+python",
