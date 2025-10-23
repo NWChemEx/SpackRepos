@@ -66,11 +66,22 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         sticky=False,
     )
 
-    pkg.depends_on("py-ase")
-    pkg.depends_on("nwchem")
+    pkg.depends_on("py-pydantic", type=("build", "link", "run"))
+    pkg.depends_on("py-networkx", type=("build", "link", "run"))
+    pkg.depends_on("py-ase", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", type=("build", "link", "run"))
 
     # First-party
-    pkg.depends_on("nwchemex-simde")
+    pkg.depends_on(
+        "nwchemex-simde+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-simde~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(

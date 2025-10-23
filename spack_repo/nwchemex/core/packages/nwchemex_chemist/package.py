@@ -63,8 +63,27 @@ class NwchemexChemist(NWChemExBasePybindings):
 
     # First-party
     pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
-    pkg.depends_on("nwchemex-tensorwrapper")
+    pkg.depends_on(
+        "nwchemex-parallelzone+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-parallelzone~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+
+    pkg.depends_on(
+        "nwchemex-tensorwrapper+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-tensorwrapper~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Although we have a variant, technically it is not a direct dependency
     # of this package

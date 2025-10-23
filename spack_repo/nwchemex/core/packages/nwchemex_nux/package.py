@@ -61,7 +61,16 @@ class NwchemexNux(NWChemExBasePybindings):
     # )
 
     # First-party
-    pkg.depends_on("nwchemex-simde")
+    pkg.depends_on(
+        "nwchemex-simde+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-simde~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
@@ -72,13 +81,13 @@ class NwchemexNux(NWChemExBasePybindings):
     )
     # Append more sanity checks as needed
 
-    def cmake_args(self):
-        args = super().cmake_args()
+    # def cmake_args(self):
+    #     args = super().cmake_args()
 
-        args.extend(
-            [
-                self.define_from_variant("ENABLE_SIGMA", "sigma"),
-            ]
-        )
+    #     args.extend(
+    #         [
+    #             self.define_from_variant("ENABLE_SIGMA", "sigma"),
+    #         ]
+    #     )
 
-        return args
+    #     return args

@@ -72,19 +72,57 @@ class NwchemexNwchemex(NWChemExBasePybindings):
         sticky=False,
     )
 
-    # TODO: Create this package
-    # pkg.depends_on("gauxc")
-    pkg.depends_on("eigen")
-    pkg.depends_on("libint", when="+tamm")
-    # pkg.depends_on("tamm", when="+tamm")
-    # pkg.depends_on("exachem", when="+tamm")
-
     # First-party
-    pkg.depends_on("nwchemex-friendzone")
-    pkg.depends_on("nwchemex-scf")
-    pkg.depends_on("nwchemex-nux")
-    pkg.depends_on("nwchemex-chemcache")
-    pkg.depends_on("nwchemex-integrals")
+    pkg.depends_on(
+        "nwchemex-friendzone+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-friendzone~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-scf+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-scf~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-nux+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-nux~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-chemcache+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-chemcache~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-integrals+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-integrals~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
