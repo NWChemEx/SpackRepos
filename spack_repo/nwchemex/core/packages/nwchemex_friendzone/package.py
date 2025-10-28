@@ -66,8 +66,10 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         sticky=False,
     )
 
+    pkg.depends_on("py-pip", type=("build", "link"))
     pkg.depends_on("py-pydantic", type=("build", "link", "run"))
     pkg.depends_on("py-networkx~default", type=("build", "link", "run"))
+    pkg.depends_on("py-qcelemental", type=("build", "link", "run"))
     pkg.depends_on("py-qcengine", type=("build", "link", "run"))
     # pkg.depends_on("py-ase", type=("build", "link", "run"))
     pkg.depends_on("nwchem", type=("build", "link", "run"))
