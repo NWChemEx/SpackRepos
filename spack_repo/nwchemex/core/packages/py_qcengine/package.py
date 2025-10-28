@@ -29,7 +29,9 @@ class PyQcengine(PythonPackage):
     of quantum chemistry programs."""
 
     homepage = "https://github.com/MolSSI/QCEngine"
-    pypi = "qcengine/qcengine-0.33.0.tar.gz"
+    url = "https://github.com/MolSSI/QCEngine/archive/refs/tags/v0.29.0.tar.gz"
+    git = "https://github.com/MolSSI/QCEngine.git"
+    # pypi = "qcengine/qcengine-0.33.0.tar.gz"
 
     pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
 

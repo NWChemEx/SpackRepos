@@ -28,7 +28,9 @@ class PyQcelemental(PythonPackage):
     """FIXME: Put a proper description of your package here."""
 
     homepage = "https://github.com/MolSSI/QCElemental"
-    pypi = "qcelemental/qcelemental-0.29.0.tar.gz"
+    url = "https://github.com/MolSSI/QCElemental/archive/refs/tags/v0.29.0.tar.gz"
+    git = "https://github.com/MolSSI/QCElemental.git"
+    # pypi = "qcelemental/qcelemental-0.29.0.tar.gz"
 
     pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
 
@@ -84,7 +86,7 @@ class PyQcelemental(PythonPackage):
     pkg.depends_on("py-pint@0.24:", type=("build", "run"))
     pkg.depends_on("py-pydantic@1.8.2:", type=("build", "run"))
     pkg.depends_on("py-importlib-metadata@4.8:", type=("build", "run"))
-    pkg.depends_on("py-networkx", type=("build", "run"))
+    pkg.depends_on("py-networkx~default", type=("build", "run"))
     pkg.depends_on("py-scipy@1.9.0:", type=("build", "run"))
     pkg.depends_on("py-setuptools@68.0.0:", type=("build", "run"))
     pkg.depends_on("py-pytest@7.2.2:", type=("build", "run"))

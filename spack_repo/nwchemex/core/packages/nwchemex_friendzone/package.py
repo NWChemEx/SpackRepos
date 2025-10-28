@@ -67,9 +67,9 @@ class NwchemexFriendzone(NWChemExBasePybindings):
     )
 
     pkg.depends_on("py-pydantic", type=("build", "link", "run"))
-    pkg.depends_on("py-networkx", type=("build", "link", "run"))
+    pkg.depends_on("py-networkx~default", type=("build", "link", "run"))
     pkg.depends_on("py-qcengine", type=("build", "link", "run"))
-    pkg.depends_on("py-ase", type=("build", "link", "run"))
+    # pkg.depends_on("py-ase", type=("build", "link", "run"))
     pkg.depends_on("nwchem", type=("build", "link", "run"))
 
     # First-party
@@ -97,9 +97,12 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         args = super().cmake_args()
 
         args.extend(
-            self.define_from_variant(
-                "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-            ),
+            [
+                self.define_from_variant(
+                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
+                ),
+                self.define("ENABLE_ASE", "OFF"),
+            ]
         )
 
         return args
