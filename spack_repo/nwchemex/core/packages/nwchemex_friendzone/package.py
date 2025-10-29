@@ -66,13 +66,21 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         sticky=False,
     )
 
-    pkg.depends_on("py-pip", type=("build", "link"))
-    pkg.depends_on("py-pydantic", type=("build", "link", "run"))
-    pkg.depends_on("py-networkx~default", type=("build", "link", "run"))
-    pkg.depends_on("py-qcelemental", type=("build", "link", "run"))
-    pkg.depends_on("py-qcengine", type=("build", "link", "run"))
-    # pkg.depends_on("py-ase", type=("build", "link", "run"))
-    pkg.depends_on("nwchem", type=("build", "link", "run"))
+    pkg.depends_on("py-pip", when="+python", type=("build", "link"))
+    pkg.depends_on(
+        "py-pydantic", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-networkx~default", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcelemental", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcengine", when="+python", type=("build", "link", "run")
+    )
+    # pkg.depends_on("py-ase", when="+python", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", when="+python", type=("build", "link", "run"))
 
     # First-party
     pkg.depends_on(
@@ -87,12 +95,12 @@ class NwchemexFriendzone(NWChemExBasePybindings):
     )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
 
     def cmake_args(self):

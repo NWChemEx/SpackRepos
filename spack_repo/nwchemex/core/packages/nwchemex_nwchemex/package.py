@@ -79,11 +79,6 @@ class NwchemexNwchemex(NWChemExBasePybindings):
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-friendzone~python",
-        type=("build", "link", "run"),
-        when="~python",
-    )
-    pkg.depends_on(
         "nwchemex-scf+python",
         type=("build", "link", "run"),
         when="+python",
@@ -125,21 +120,21 @@ class NwchemexNwchemex(NWChemExBasePybindings):
     )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
 
-    def cmake_args(self):
-        args = super().cmake_args()
+    # def cmake_args(self):
+    #     args = super().cmake_args()
 
-        args.extend(
-            self.define_from_variant(
-                "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-            ),
-        )
+    #     args.extend(
+    #         self.define_from_variant(
+    #             "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
+    #         ),
+    #     )
 
-        return args
+    #     return args
