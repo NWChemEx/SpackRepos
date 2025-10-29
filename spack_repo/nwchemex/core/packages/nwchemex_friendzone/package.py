@@ -66,28 +66,53 @@ class NwchemexFriendzone(NWChemExBasePybindings):
         sticky=False,
     )
 
-    pkg.depends_on("py-ase")
-    pkg.depends_on("nwchem")
+    pkg.depends_on("py-pip", when="+python", type=("build", "link"))
+    pkg.depends_on(
+        "py-pydantic", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-networkx~default", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcelemental", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcengine", when="+python", type=("build", "link", "run")
+    )
+    # pkg.depends_on("py-ase", when="+python", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", when="+python", type=("build", "link", "run"))
 
     # First-party
-    pkg.depends_on("nwchemex-simde")
+    pkg.depends_on(
+        "nwchemex-simde+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-simde~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
 
     def cmake_args(self):
         args = super().cmake_args()
 
         args.extend(
-            self.define_from_variant(
-                "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-            ),
+            [
+                self.define_from_variant(
+                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
+                ),
+                self.define("ENABLE_ASE", "OFF"),
+            ]
         )
 
         return args
