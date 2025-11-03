@@ -2,6 +2,7 @@ import os
 
 from spack import package as pkg
 from spack.package_base import PackageBase
+from spack_repo.builtin.build_systems.python import PythonPackage
 
 from .cmaize import CMaizePackage
 
@@ -96,7 +97,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
         "python",
         default=False,
         description="Build the Python bindings",
-        sticky=True,
+        # sticky=True,
     )
 
     # https://spack.readthedocs.io/en/latest/build_systems/pythonpackage.html#extends-vs-depends-on
@@ -136,3 +137,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
             )
 
         return args
+
+
+class NWChemExBasePython(NWChemExBaseGit, PythonPackage):
+    pass

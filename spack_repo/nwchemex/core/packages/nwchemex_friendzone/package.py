@@ -11,11 +11,11 @@
 # next to all the things you'll want to change. Once you've handled
 # them, you can save this file and test your package like this:
 #
-#     spack install nwchemex-simde
+#     spack install nwchemex-friendzone
 #
 # You can edit this file again by typing:
 #
-#     spack edit nwchemex-simde
+#     spack edit nwchemex-friendzone
 #
 # See the Spack documentation for more information on packaging.
 # ----------------------------------------------------------------------------
