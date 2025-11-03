@@ -11,22 +11,22 @@
 # next to all the things you'll want to change. Once you've handled
 # them, you can save this file and test your package like this:
 #
-#     spack install nwchemex-friendzone
+#     spack install nwchemex-simde
 #
 # You can edit this file again by typing:
 #
-#     spack edit nwchemex-friendzone
+#     spack edit nwchemex-simde
 #
 # See the Spack documentation for more information on packaging.
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
 
-from spack_repo.nwchemex.common.mixins import NWChemExBasePython
+from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexFriendzone(NWChemExBasePython):
-    """Provides SimDE-compatible APIs so that NWChemEx can play nicely with its friends."""
+class NwchemexFriendzone(NWChemExBasePybindings):
+    """Generic, helpful C++ classes used by the NWChemEx project."""
 
     project = "FriendZone"
 
@@ -48,8 +48,8 @@ class NwchemexFriendzone(NWChemExBasePython):
 
     # Versions from git tags
     pkg.version(
-        "1.0.14",
-        sha256="b504cb1f20ed5839a1fc926650b2f4114b8ff985f2295f81980e05281c74d652",
+        "1.0.9",
+        sha256="fbf3b4a8f392e88e675696976d4d4927af1f158a2602f761796d415c1fbaeab1",
     )
 
     # TODO: Should this still be here for SimDE propagation?
@@ -59,47 +59,41 @@ class NwchemexFriendzone(NWChemExBasePython):
     #     description="Enable Sigma for uncertainty tracking",
     #     sticky=True,
     # )
-    # Not currently available in the Python package
-    # pkg.variant(
-    #     "experimental",
-    #     default=False,
-    #     description="Enable experimental features",
-    #     sticky=False,
-    # )
     pkg.variant(
-        "friends",
-        values=pkg.any_combination_of("nwchem", "ase"),
-        # pkg.any_combination_of() automatically adds a "none" option and sets
-        # the following two options
-        # default="none",
-        # multi=True,
-        description=(
-            "Which friends to include. For multiple friends, use a "
-            "comma-separated list "
-            "(e.g. `spack install friendzone friends=nwchem,ase`)"
-        ),
+        "experimental",
+        default=False,
+        description="Enable experimental features",
+        sticky=False,
     )
 
-    # TODO: Many of these may be able to be switched to ("build", "run")
-    # instead of ("build", "link", "run")
-    pkg.depends_on("python@3.10:", type=("build", "run"))
-    pkg.depends_on("py-pip", type=("build", "link"))
-    pkg.depends_on("py-pydantic", type=("build", "link", "run"))
-    with pkg.when("friends=nwchem"):
-        pkg.depends_on("py-networkx~default", type=("build", "link", "run"))
-        pkg.depends_on("py-qcelemental", type=("build", "link", "run"))
-        pkg.depends_on("py-qcengine", type=("build", "link", "run"))
-        pkg.depends_on("nwchem", type=("build", "link", "run"))
-    with pkg.when("friends=ase"):
-        pkg.depends_on("py-ase", type=("build", "link", "run"))
+    pkg.depends_on("py-pip", when="+python", type=("build", "link"))
+    pkg.depends_on(
+        "py-pydantic", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-networkx~default", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcelemental", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcengine", when="+python", type=("build", "link", "run")
+    )
+    # pkg.depends_on("py-ase", when="+python", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", when="+python", type=("build", "link", "run"))
 
     # First-party
     pkg.depends_on(
         "nwchemex-simde+python",
         type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-simde~python",
+        type=("build", "link", "run"),
+        when="~python",
     )
 
-    # TODO: Add sanity checks
     # Start with CMaize sanity check locations
     # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
     #     project.lower()
@@ -108,3 +102,17 @@ class NwchemexFriendzone(NWChemExBasePython):
     #     project.lower()
     # )
     # Append more sanity checks as needed
+
+    def cmake_args(self):
+        args = super().cmake_args()
+
+        args.extend(
+            [
+                self.define_from_variant(
+                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
+                ),
+                self.define("ENABLE_ASE", "OFF"),
+            ]
+        )
+
+        return args
