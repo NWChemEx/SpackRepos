@@ -62,12 +62,6 @@ class NwchemexChemcache(NWChemExBasePybindings):
     #     description="Enable Sigma for uncertainty tracking",
     #     sticky=True,
     # )
-    pkg.variant(
-        "experimental",
-        default=False,
-        description="Enable experimental features",
-        sticky=False,
-    )
 
     pkg.depends_on("py-requests")
 
@@ -91,16 +85,3 @@ class NwchemexChemcache(NWChemExBasePybindings):
         project.lower()
     )
     # Append more sanity checks as needed
-
-    def cmake_args(self):
-        args = super().cmake_args()
-
-        args.extend(
-            [
-                self.define_from_variant(
-                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-                ),
-            ]
-        )
-
-        return args

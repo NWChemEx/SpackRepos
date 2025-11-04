@@ -59,12 +59,6 @@ class NwchemexFriendzone(NWChemExBasePybindings):
     #     description="Enable Sigma for uncertainty tracking",
     #     sticky=True,
     # )
-    pkg.variant(
-        "experimental",
-        default=False,
-        description="Enable experimental features",
-        sticky=False,
-    )
 
     pkg.depends_on("py-pip", when="+python", type=("build", "link"))
     pkg.depends_on(
@@ -108,9 +102,6 @@ class NwchemexFriendzone(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_variant(
-                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-                ),
                 self.define("ENABLE_ASE", "OFF"),
             ]
         )

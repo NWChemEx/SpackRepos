@@ -59,13 +59,6 @@ class NwchemexFriendzone(NWChemExBasePython):
     #     description="Enable Sigma for uncertainty tracking",
     #     sticky=True,
     # )
-    # Not currently available in the Python package
-    # pkg.variant(
-    #     "experimental",
-    #     default=False,
-    #     description="Enable experimental features",
-    #     sticky=False,
-    # )
     pkg.variant(
         "friends",
         values=pkg.any_combination_of("nwchem", "ase"),
