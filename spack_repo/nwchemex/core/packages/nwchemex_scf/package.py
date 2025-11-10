@@ -51,38 +51,15 @@ class NwchemexScf(NWChemExBasePybindings):
         sha256="b175c15e8c814cd288817c970f4e049c7eab248975ff7c891d8927d7555d0cd8",
     )
 
-    pkg.variant(
-        "sigma",
-        default=False,
-        description="Enable Sigma for uncertainty tracking",
-        sticky=True,
-    )
-    # TODO: Handle this turned on
-    pkg.variant(
-        "tamm",
-        default=False,
-        description="Build modules that rely on TAMM/Exachem",
-    )
-
     # For building GauXC, I think
     pkg.depends_on("c", type="build")
 
     # TODO: Create this package
     # pkg.depends_on("gauxc")
     pkg.depends_on("eigen")
-    # The "tune" variant is not available prior to v2.6
-    # TODO: A value of "tune=none" or any of the molgw-* options likely break
-    # the unit tests, but I don't know how to add them as conflicts yet.
-    pkg.depends_on("libint@2.6:", when="+tamm")
     pkg.depends_on("mpi")
     pkg.depends_on("py-numpy")
     pkg.depends_on("libxc")
-    # pkg.depends_on("tamm", when="+tamm")
-    # pkg.depends_on("exachem", when="+tamm")
-
-    # Although we have a variant, technically it is not a direct dependency
-    # of this package
-    # pkg.depends_on("sigma+eigen", when="+sigma")
 
     # First-party
     pkg.depends_on(
@@ -104,14 +81,3 @@ class NwchemexScf(NWChemExBasePybindings):
         project.lower()
     )
     # Append more sanity checks as needed
-
-    def cmake_args(self):
-        args = super().cmake_args()
-
-        args.extend(
-            [
-                self.define_from_variant("ENABLE_SIGMA", "sigma"),
-            ]
-        )
-
-        return args

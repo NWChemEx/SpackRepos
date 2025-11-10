@@ -47,18 +47,12 @@ class NwchemexFriendzone(NWChemExBasePython):
     pkg.license("Apache-2.0", checked_by="zachcran")
 
     # Versions from git tags
+    pkg.version("python_package", branch="python_package")
     pkg.version(
         "1.0.14",
         sha256="b504cb1f20ed5839a1fc926650b2f4114b8ff985f2295f81980e05281c74d652",
     )
 
-    # TODO: Should this still be here for SimDE propagation?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
     pkg.variant(
         "friends",
         values=pkg.any_combination_of("nwchem", "ase"),
@@ -77,6 +71,7 @@ class NwchemexFriendzone(NWChemExBasePython):
     # instead of ("build", "link", "run")
     pkg.depends_on("python@3.10:", type=("build", "run"))
     pkg.depends_on("py-pip", type=("build", "link"))
+    pkg.depends_on("py-setuptools", type="build")
     pkg.depends_on("py-pydantic", type=("build", "link", "run"))
     with pkg.when("friends=nwchem"):
         pkg.depends_on("py-networkx~default", type=("build", "link", "run"))

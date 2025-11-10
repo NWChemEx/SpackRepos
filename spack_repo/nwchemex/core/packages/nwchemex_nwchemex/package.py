@@ -47,48 +47,16 @@ class NwchemexNwchemex(NWChemExBasePython):
     pkg.license("Apache-2.0", checked_by="zachcran")
 
     # Versions from git tags
+    pkg.version("python_package", branch="python_package")
     pkg.version(
         "0.0.27",
         sha256="1bd22792ca0fbe74f95b2065f2f2d674f2c62d186a340150e8ed1e0f27c2d334",
     )
 
-    # TODO: Should this still be here for SimDE propagation?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
-    # TODO: Handle this turned on
-    pkg.variant(
-        "tamm",
-        default=False,
-        description="Build modules that rely on TAMM/Exachem",
-    )
-    # TODO: This is not used anywhere
-    pkg.variant(
-        "full-chemcache",
-        default=False,
-        description="If ChemCache isn't found, build the full version",
-        sticky=False,
-    )
-    pkg.variant(
-        "friends",
-        values=pkg.any_combination_of("nwchem", "ase"),
-        # pkg.any_combination_of() automatically adds a "none" option and sets
-        # the following two options
-        # default="none",
-        # multi=True,
-        description=(
-            "Which friends to include. For multiple friends, use a "
-            "comma-separated list "
-            "(e.g. `spack install friendzone friends=nwchem,ase`)"
-        ),
-    )
-
     # TODO: Many of these may be able to be switched to ("build", "run")
     # instead of ("build", "link", "run")
     pkg.depends_on("python@3.10:", type=("build", "run"))
+    pkg.depends_on("py-setuptools", type="build")
 
     # First-party
     # TODO: Figure out how to ensure that the correct value for the "friends"

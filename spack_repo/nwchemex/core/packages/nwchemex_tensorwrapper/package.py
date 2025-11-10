@@ -61,6 +61,7 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
     # Runtime dependencies
     pkg.depends_on("boost")
     pkg.depends_on("eigen")
+    pkg.depends_on("py-numpy", when="+python", type=("build", "run"))
 
     # First-party
     pkg.depends_on("nwchemex-utilities")

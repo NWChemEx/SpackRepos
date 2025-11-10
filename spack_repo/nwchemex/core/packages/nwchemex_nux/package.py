@@ -52,14 +52,6 @@ class NwchemexNux(NWChemExBasePybindings):
         sha256="58cb55b4975baf3255208333fd4366293efe55b0aeaab3c269f7485f75f2061b",
     )
 
-    # TODO: Should this still be here for SimDE propagation?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
-
     # First-party
     pkg.depends_on(
         "nwchemex-simde+python",
@@ -80,14 +72,3 @@ class NwchemexNux(NWChemExBasePybindings):
         project.lower()
     )
     # Append more sanity checks as needed
-
-    # def cmake_args(self):
-    #     args = super().cmake_args()
-
-    #     args.extend(
-    #         [
-    #             self.define_from_variant("ENABLE_SIGMA", "sigma"),
-    #         ]
-    #     )
-
-    #     return args

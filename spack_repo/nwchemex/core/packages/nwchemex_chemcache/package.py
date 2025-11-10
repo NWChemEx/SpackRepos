@@ -55,14 +55,6 @@ class NwchemexChemcache(NWChemExBasePybindings):
         sha256="5efb2a60d75aaa57e08e8b2a0b84a24e502083fa5bacae416406ec59bd2839b8",
     )
 
-    # TODO: Are we sure this shouldn't be here to propagate down to SimDE?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
-
     pkg.depends_on("py-requests")
 
     # First-party
