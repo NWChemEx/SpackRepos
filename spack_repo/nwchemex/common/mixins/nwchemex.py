@@ -95,7 +95,7 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
 
     pkg.variant(
         "python",
-        default=False,
+        default=True,
         description="Build the Python bindings",
         # sticky=True,
     )
