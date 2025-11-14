@@ -11,11 +11,11 @@
 # next to all the things you'll want to change. Once you've handled
 # them, you can save this file and test your package like this:
 #
-#     spack install nwchemex-pluginplay
+#     spack install nwchemex-simde
 #
 # You can edit this file again by typing:
 #
-#     spack edit nwchemex-pluginplay
+#     spack edit nwchemex-simde
 #
 # See the Spack documentation for more information on packaging.
 # ----------------------------------------------------------------------------
@@ -25,13 +25,13 @@ from spack import package as pkg
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexPluginplay(NWChemExBasePybindings):
+class NwchemexFriendzone(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "PluginPlay"
+    project = "FriendZone"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v1.0.43.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v1.0.9.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -48,40 +48,53 @@ class NwchemexPluginplay(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "1.0.46",
-        sha256="22303b38ac6e2459b50a9074697a59fbd01422cdb7db98599f81255f43176597",
+        "1.0.9",
+        sha256="fbf3b4a8f392e88e675696976d4d4927af1f158a2602f761796d415c1fbaeab1",
     )
 
-    pkg.variant(
-        "rocksdb",
-        default=False,
-        description="Enable RocksDB backend of the cache",
-    )
+    # TODO: Should this still be here for SimDE propagation?
+    # pkg.variant(
+    #     "sigma",
+    #     default=False,
+    #     description="Enable Sigma for uncertainty tracking",
+    #     sticky=True,
+    # )
 
-    # Runtime dependencies
-    pkg.depends_on("boost")
-    pkg.depends_on("libfort enable_testing=false")
-    pkg.depends_on("rocksdb", when="+rocksdb")
-    # First-party
-    pkg.depends_on("nwchemex-utilities")
+    pkg.depends_on("py-pip", when="+python", type=("build", "link"))
     pkg.depends_on(
-        "nwchemex-parallelzone+python",
+        "py-pydantic", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-networkx~default", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcelemental", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcengine", when="+python", type=("build", "link", "run")
+    )
+    # pkg.depends_on("py-ase", when="+python", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", when="+python", type=("build", "link", "run"))
+
+    # First-party
+    pkg.depends_on(
+        "nwchemex-simde+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-parallelzone~python",
+        "nwchemex-simde~python",
         type=("build", "link", "run"),
         when="~python",
     )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
 
     def cmake_args(self):
@@ -89,7 +102,7 @@ class NwchemexPluginplay(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_variant("BUILD_ROCKSDB", "rocksdb"),
+                self.define("ENABLE_ASE", "OFF"),
             ]
         )
 

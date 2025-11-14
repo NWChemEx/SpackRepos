@@ -21,7 +21,6 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
-
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -48,7 +47,7 @@ class NwchemexChemcache(NWChemExBasePybindings):
     pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
     pkg.license("Apache-2.0", checked_by="zachcran")
 
-    pkg.version("generated_data", branch="generated_data")
+    pkg.version("generated_data", branch="generated_data", preferred=True)
 
     # Versions from git tags
     pkg.version(
@@ -56,24 +55,19 @@ class NwchemexChemcache(NWChemExBasePybindings):
         sha256="5efb2a60d75aaa57e08e8b2a0b84a24e502083fa5bacae416406ec59bd2839b8",
     )
 
-    # TODO: Are we sure this shouldn't be here to propagate down to SimDE?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
-    pkg.variant(
-        "experimental",
-        default=False,
-        description="Enable experimental features",
-        sticky=False,
-    )
-
-    # Runtime dependencies
+    pkg.depends_on("py-requests")
 
     # First-party
-    pkg.depends_on("nwchemex-simde")
+    pkg.depends_on(
+        "nwchemex-simde+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-simde~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
@@ -83,16 +77,3 @@ class NwchemexChemcache(NWChemExBasePybindings):
         project.lower()
     )
     # Append more sanity checks as needed
-
-    def cmake_args(self):
-        args = super().cmake_args()
-
-        args.extend(
-            [
-                self.define_from_variant(
-                    "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-                ),
-            ]
-        )
-
-        return args
