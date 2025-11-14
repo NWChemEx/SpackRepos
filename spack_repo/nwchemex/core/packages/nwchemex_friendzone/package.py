@@ -55,7 +55,7 @@ class NwchemexFriendzone(NWChemExBasePython):
 
     pkg.variant(
         "friends",
-        values=pkg.any_combination_of("nwchem", "ase"),
+        values=pkg.any_combination_of("molssi", "ase", "nwchem"),
         # pkg.any_combination_of() automatically adds a "none" option and sets
         # the following two options
         # default="none",
@@ -63,7 +63,7 @@ class NwchemexFriendzone(NWChemExBasePython):
         description=(
             "Which friends to include. For multiple friends, use a "
             "comma-separated list "
-            "(e.g. `spack install friendzone friends=nwchem,ase`)"
+            "(e.g. `spack install friendzone friends=molssi,ase`)"
         ),
     )
 
@@ -73,10 +73,11 @@ class NwchemexFriendzone(NWChemExBasePython):
     pkg.depends_on("py-pip", type=("build", "link"))
     pkg.depends_on("py-setuptools", type="build")
     pkg.depends_on("py-pydantic", type=("build", "link", "run"))
-    with pkg.when("friends=nwchem"):
+    with pkg.when("friends=molssi"):
         pkg.depends_on("py-networkx~default", type=("build", "link", "run"))
         pkg.depends_on("py-qcelemental", type=("build", "link", "run"))
         pkg.depends_on("py-qcengine", type=("build", "link", "run"))
+    with pkg.when("friends=nwchem"):
         pkg.depends_on("nwchem", type=("build", "link", "run"))
     with pkg.when("friends=ase"):
         pkg.depends_on("py-ase", type=("build", "link", "run"))
