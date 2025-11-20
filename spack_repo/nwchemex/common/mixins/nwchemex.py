@@ -30,17 +30,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         sticky=True,
     )
 
-    pkg.variant(
-        "cxxstd",
-        default="17",
-        # NOTE: Comma after "17" is necessary so Spack doesn't split it into
-        #       individual characters
-        values=("17",),
-        multi=False,
-        description="Use the specified C++ standard when building",
-        sticky=True,
-    )
-
     pkg.depends_on("cxx", type="build")
 
     # Test dependencies
@@ -56,7 +45,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
                 ),
                 self.define_from_variant("BUILD_SHARED_LIBS", "shared"),
                 self.define_from_variant("BUILD_DOCS", "docs"),
-                self.define_from_variant("CMAKE_CXX_STANDARD", "cxxstd"),
                 self.define("BUILD_TESTING", self.run_tests),
             ]
         )
@@ -75,12 +63,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         args.append(self.define("CMAKE_POLICY_DEFAULT_CMP0152", "NEW"))
 
         # DEBUG REMOVE ME
-        args.append(
-            self.define(
-                "FETCHCONTENT_SOURCE_DIR_NWX_CMAKE",
-                "/home/zachcran/workspaces/nwchemex/repos_dev/nwxcmake",
-            )
-        )
         args.append(
             self.define(
                 "CMAKE_VERBOSE_MAKEFILE",
