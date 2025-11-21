@@ -22,10 +22,10 @@
 
 from spack import package as pkg
 
-from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
+from spack_repo.nwchemex.common.mixins import NWChemExBasePython
 
 
-class NwchemexNwchemex(NWChemExBasePybindings):
+class NwchemexNwchemex(NWChemExBasePython):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
     project = "NWChemEx"
@@ -47,61 +47,47 @@ class NwchemexNwchemex(NWChemExBasePybindings):
     pkg.license("Apache-2.0", checked_by="zachcran")
 
     # Versions from git tags
+    pkg.version("python_package", branch="python_package")
     pkg.version(
         "0.0.27",
         sha256="1bd22792ca0fbe74f95b2065f2f2d674f2c62d186a340150e8ed1e0f27c2d334",
     )
 
-    # TODO: Should this still be here for SimDE propagation?
-    # pkg.variant(
-    #     "sigma",
-    #     default=False,
-    #     description="Enable Sigma for uncertainty tracking",
-    #     sticky=True,
-    # )
-    # TODO: Handle this turned on
-    pkg.variant(
-        "tamm",
-        default=False,
-        description="Build modules that rely on TAMM/Exachem",
-    )
-    pkg.variant(
-        "full-chemcache",
-        default=False,
-        description="If ChemCache isn't found, build the full version",
-        sticky=False,
-    )
-
-    # TODO: Create this package
-    # pkg.depends_on("gauxc")
-    pkg.depends_on("eigen")
-    pkg.depends_on("libint", when="+tamm")
-    # pkg.depends_on("tamm", when="+tamm")
-    # pkg.depends_on("exachem", when="+tamm")
+    # TODO: Many of these may be able to be switched to ("build", "run")
+    # instead of ("build", "link", "run")
+    pkg.depends_on("python@3.10:", type=("build", "run"))
+    pkg.depends_on("py-setuptools", type="build")
 
     # First-party
-    pkg.depends_on("nwchemex-friendzone")
-    pkg.depends_on("nwchemex-scf")
-    pkg.depends_on("nwchemex-nux")
-    pkg.depends_on("nwchemex-chemcache")
-    pkg.depends_on("nwchemex-integrals")
+    # TODO: Figure out how to ensure that the correct value for the "friends"
+    # variant can be propagated, or switch each friend to a separate variant
+    pkg.depends_on(
+        "nwchemex-friendzone",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "nwchemex-scf+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "nwchemex-nux+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "nwchemex-chemcache+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "nwchemex-integrals+python",
+        type=("build", "link", "run"),
+    )
 
+    # TODO: Add sanity checks
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
-
-    def cmake_args(self):
-        args = super().cmake_args()
-
-        args.extend(
-            self.define_from_variant(
-                "ENABLE_EXPERIMENTAL_FEATURES", "experimental"
-            ),
-        )
-
-        return args

@@ -21,16 +21,17 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexScf(NWChemExBasePybindings):
+class NwchemexFriendzone(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "SCF"
+    project = "FriendZone"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.23.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v1.0.9.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -47,20 +48,33 @@ class NwchemexScf(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "0.0.23",
-        sha256="b175c15e8c814cd288817c970f4e049c7eab248975ff7c891d8927d7555d0cd8",
+        "1.0.9",
+        sha256="fbf3b4a8f392e88e675696976d4d4927af1f158a2602f761796d415c1fbaeab1",
     )
 
-    # For building GauXC, I think
-    pkg.depends_on("c", type="build")
+    # TODO: Should this still be here for SimDE propagation?
+    # pkg.variant(
+    #     "sigma",
+    #     default=False,
+    #     description="Enable Sigma for uncertainty tracking",
+    #     sticky=True,
+    # )
 
-    # TODO: Create this package
-    # pkg.depends_on("gauxc")
-    pkg.depends_on("eigen")
-    pkg.depends_on("mpi")
-    pkg.depends_on("py-numpy")
-    # Uncomment when GauXC/Libxc interactions are sorted out
-    # pkg.depends_on("libxc")
+    pkg.depends_on("py-pip", when="+python", type=("build", "link"))
+    pkg.depends_on(
+        "py-pydantic", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-networkx~default", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcelemental", when="+python", type=("build", "link", "run")
+    )
+    pkg.depends_on(
+        "py-qcengine", when="+python", type=("build", "link", "run")
+    )
+    # pkg.depends_on("py-ase", when="+python", type=("build", "link", "run"))
+    pkg.depends_on("nwchem", when="+python", type=("build", "link", "run"))
 
     # First-party
     pkg.depends_on(
@@ -75,10 +89,21 @@ class NwchemexScf(NWChemExBasePybindings):
     )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed
+
+    def cmake_args(self):
+        args = super().cmake_args()
+
+        args.extend(
+            [
+                self.define("ENABLE_ASE", "OFF"),
+            ]
+        )
+
+        return args

@@ -2,6 +2,7 @@ import os
 
 from spack import package as pkg
 from spack.package_base import PackageBase
+from spack_repo.builtin.build_systems.python import PythonPackage
 
 from .cmaize import CMaizePackage
 
@@ -29,17 +30,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
         sticky=True,
     )
 
-    pkg.variant(
-        "cxxstd",
-        default="17",
-        # NOTE: Comma after "17" is necessary so Spack doesn't split it into
-        #       individual characters
-        values=("17",),
-        multi=False,
-        description="Use the specified C++ standard when building",
-        sticky=True,
-    )
-
     pkg.depends_on("cxx", type="build")
 
     # Test dependencies
@@ -55,7 +45,6 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
                 ),
                 self.define_from_variant("BUILD_SHARED_LIBS", "shared"),
                 self.define_from_variant("BUILD_DOCS", "docs"),
-                self.define_from_variant("CMAKE_CXX_STANDARD", "cxxstd"),
                 self.define("BUILD_TESTING", self.run_tests),
             ]
         )
@@ -87,13 +76,24 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
 class NWChemExBasePybindings(NWChemExBaseCXX):
 
     pkg.variant(
-        "pybindings",
-        default=False,
-        description="Build the Python bindings with Pybind11",
-        sticky=True,
+        "python",
+        default=True,
+        description="Build the Python bindings",
+        # sticky=True,
     )
 
-    pkg.depends_on("py-pybind11", when="+pybindings")
+    # https://spack.readthedocs.io/en/latest/build_systems/pythonpackage.html#extends-vs-depends-on
+    pkg.extends("python", when="+python")
+    pkg.depends_on(
+        "py-pybind11@3:",
+        type=("build", "link", "run", "test"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "python@3:",
+        type=("build", "link", "run", "test"),
+        when="+python",
+    )
 
     def cmake_args(self):
         args = super().cmake_args()
@@ -101,25 +101,25 @@ class NWChemExBasePybindings(NWChemExBaseCXX):
         args.extend(
             [
                 self.define_from_variant(
-                    "BUILD_PYBIND11_PYBINDINGS", "pybindings"
+                    "BUILD_PYBIND11_PYBINDINGS", "python"
                 ),
-                self.define_from_variant("PYBIND11_FINDPYTHON", "pybindings"),
+                self.define_from_variant("PYBIND11_FINDPYTHON", "python"),
             ]
         )
 
-        if self.spec.satisfies("+pybindings"):
-            if "NWX_MODULE_DIRECTORY" in os.environ:
-                args.append(
-                    self.define(
-                        "NWX_MODULE_DIRECTORY",
-                        os.environ["NWX_MODULE_DIRECTORY"],
-                    )
+        if self.spec.satisfies("+python"):
+            args.append(
+                self.define(
+                    "NWX_MODULE_DIRECTORY",
+                    # lib64 is used for platlib from Python package
+                    self.prefix.lib.join(
+                        "python{}".format(self.spec["python"].version[:-1])
+                    ).join("site-packages"),
                 )
-            # TODO: Allow the user to configure this?
-            # args.append(
-            #     "-DNWX_MODULE_DIRECTORY={}".format(
-            #         self.prefix.lib.join(self.project.lower()).join("python")
-            #     )
-            # )
+            )
 
         return args
+
+
+class NWChemExBasePython(NWChemExBaseGit, PythonPackage):
+    pass

@@ -85,4 +85,15 @@ class NwchemexParallelzone(NWChemExBasePybindings):
     sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
         project.lower()
     )
+
     # Append more sanity checks as needed
+    def cmake_args(self):
+        args = super().cmake_args()
+
+        args.extend(
+            [
+                self.define_from_variant("BUILD_PAPI_BINDINGS ", "papi"),
+            ]
+        )
+
+        return args
