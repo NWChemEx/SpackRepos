@@ -39,7 +39,7 @@ class PyQcengine(PythonPackage):
 
     pkg.version(
         "0.33.0",
-        sha256="1d83cda4d1b3214f5710f84ba8ad8586fb9b7949236ed6699f4b036bbd4c077b",
+        sha256="7d9317355294b2118b9e959e57394eb3f2205db004d9ebe7441cd5026a7fc6c4",
     )
     pkg.version(
         "0.32.0",

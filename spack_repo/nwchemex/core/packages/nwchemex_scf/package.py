@@ -59,7 +59,8 @@ class NwchemexScf(NWChemExBasePybindings):
     pkg.depends_on("eigen")
     pkg.depends_on("mpi")
     pkg.depends_on("py-numpy")
-    pkg.depends_on("libxc")
+    # Uncomment when GauXC/Libxc interactions are sorted out
+    # pkg.depends_on("libxc")
 
     # First-party
     pkg.depends_on(
