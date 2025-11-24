@@ -21,6 +21,7 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -55,7 +56,7 @@ class NwchemexChemcache(NWChemExBasePybindings):
         sha256="5efb2a60d75aaa57e08e8b2a0b84a24e502083fa5bacae416406ec59bd2839b8",
     )
 
-    pkg.depends_on("py-requests")
+    pkg.depends_on("py-requests@2.16:")
 
     # First-party
     pkg.depends_on(
