@@ -1,4 +1,13 @@
 from .cmaize import CMaizePackage
-from .nwchemex import NWChemExBaseCXX, NWChemExBasePybindings
+from .nwchemex import (
+    NWChemExBaseCXX,
+    NWChemExBasePybindings,
+    NWChemExBasePython,
+)
 
-__all__ = ["CMaizePackage", "NWChemExBaseCXX", "NWChemExBasePybindings"]
+__all__ = [
+    "CMaizePackage",
+    "NWChemExBaseCXX",
+    "NWChemExBasePybindings",
+    "NWChemExBasePython",
+]

@@ -21,16 +21,17 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexScf(NWChemExBasePybindings):
+class NwchemexNwchemex(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "SCF"
+    project = "NWChemEx"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.23.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.27.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -47,38 +48,82 @@ class NwchemexScf(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "0.0.23",
-        sha256="b175c15e8c814cd288817c970f4e049c7eab248975ff7c891d8927d7555d0cd8",
+        "0.0.27",
+        sha256="1bd22792ca0fbe74f95b2065f2f2d674f2c62d186a340150e8ed1e0f27c2d334",
     )
 
-    # For building GauXC, I think
-    pkg.depends_on("c", type="build")
-
-    # TODO: Create this package
-    # pkg.depends_on("gauxc")
-    pkg.depends_on("eigen")
-    pkg.depends_on("mpi")
-    pkg.depends_on("py-numpy")
-    # Uncomment when GauXC/Libxc interactions are sorted out
-    # pkg.depends_on("libxc")
+    # TODO: Should this still be here for SimDE propagation?
+    # pkg.variant(
+    #     "sigma",
+    #     default=False,
+    #     description="Enable Sigma for uncertainty tracking",
+    #     sticky=True,
+    # )
+    # TODO: Handle this turned on
+    pkg.variant(
+        "tamm",
+        default=False,
+        description="Build modules that rely on TAMM/Exachem",
+    )
+    pkg.variant(
+        "full-chemcache",
+        default=False,
+        description="If ChemCache isn't found, build the full version",
+        sticky=False,
+    )
 
     # First-party
     pkg.depends_on(
-        "nwchemex-simde+python",
+        "nwchemex-friendzone+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-simde~python",
+        "nwchemex-scf+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-scf~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-nux+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-nux~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-chemcache+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-chemcache~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "nwchemex-integrals+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-integrals~python",
         type=("build", "link", "run"),
         when="~python",
     )
 
     # Start with CMaize sanity check locations
-    sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
-        project.lower()
-    )
-    sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
-        project.lower()
-    )
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
     # Append more sanity checks as needed

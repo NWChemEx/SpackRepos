@@ -21,6 +21,7 @@
 # ----------------------------------------------------------------------------
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
@@ -63,7 +64,16 @@ class NwchemexPluginplay(NWChemExBasePybindings):
     pkg.depends_on("rocksdb", when="+rocksdb")
     # First-party
     pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
+    pkg.depends_on(
+        "nwchemex-parallelzone+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-parallelzone~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
