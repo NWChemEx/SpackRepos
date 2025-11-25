@@ -47,7 +47,6 @@ class NwchemexFriendzone(NWChemExBasePython):
     pkg.license("Apache-2.0", checked_by="zachcran")
 
     # Versions from git tags
-    pkg.version("python_package", branch="python_package")
     pkg.version(
         "1.0.14",
         sha256="b504cb1f20ed5839a1fc926650b2f4114b8ff985f2295f81980e05281c74d652",
