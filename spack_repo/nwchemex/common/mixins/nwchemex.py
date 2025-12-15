@@ -51,7 +51,7 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
 
         if "CMAKE_TOOLCHAIN_FILE" in os.environ:
             args.append(
-                f"-DCMAKE_TOOLCHAIN_FILE={os.environ["CMAKE_TOOLCHAIN_FILE"]}"
+                f"-DCMAKE_TOOLCHAIN_FILE={os.environ['CMAKE_TOOLCHAIN_FILE']}"
             )
         # TODO: +debug flag? +verbose flag?
         args.append(self.define("CMAKE_MESSAGE_LOG_LEVEL", "DEBUG"))
