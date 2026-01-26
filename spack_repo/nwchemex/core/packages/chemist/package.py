@@ -1,14 +1,13 @@
-# Copyright 2025-2026 NWChemEx Developers.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
 class Chemist(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+    """Chemist provides chemistry-related data structures. This includes data
+    structures for chemistry concepts including atoms, molecules, and
+    atomic-orbital basis sets.
+    """
 
     project = "Chemist"
 

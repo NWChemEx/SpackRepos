@@ -1,14 +1,10 @@
-# Copyright 2025-2026 NWChemEx Developers.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
 class Integrals(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+    """Generic integral API and implementations for specific integral libraries."""
 
     project = "Integrals"
 

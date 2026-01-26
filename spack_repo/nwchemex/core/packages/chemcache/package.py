@@ -1,14 +1,10 @@
-# Copyright 2025-2026 NWChemEx Developers.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
 class Chemcache(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+    """Basis sets, physical constants, geometries, basically any data you can just look up."""
 
     project = "ChemCache"
 

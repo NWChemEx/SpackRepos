@@ -1,14 +1,10 @@
-# Copyright 2025-2026 NWChemEx Developers.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
 class Scf(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+    """Provides SCF driver for the NWChemEx project."""
 
     project = "SCF"
 

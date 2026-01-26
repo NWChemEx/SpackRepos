@@ -1,14 +1,12 @@
-# Copyright 2025-2026 NWChemEx Developers.
-#
-# SPDX-License-Identifier: Apache-2.0
-
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
 class Nux(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+    """NWChemEx User Experience (NUX): Tools, functions, etc. to facilitate
+    user workflows.
+    """
 
     project = "NUX"
 
