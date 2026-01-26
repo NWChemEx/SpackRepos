@@ -43,14 +43,14 @@ class Pluginplay(NWChemExBasePybindings):
     pkg.depends_on("libfort enable_testing=false")
     pkg.depends_on("rocksdb", when="+rocksdb")
     # First-party
-    pkg.depends_on("nwchemex-utilities")
+    pkg.depends_on("utilities")
     pkg.depends_on(
-        "nwchemex-parallelzone+python",
+        "parallelzone+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-parallelzone~python",
+        "parallelzone~python",
         type=("build", "link", "run"),
         when="~python",
     )

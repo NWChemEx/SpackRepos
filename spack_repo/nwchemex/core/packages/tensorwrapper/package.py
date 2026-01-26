@@ -43,14 +43,14 @@ class Tensorwrapper(NWChemExBasePybindings):
     pkg.depends_on("py-numpy", when="+python", type=("build", "run"))
 
     # First-party
-    pkg.depends_on("nwchemex-utilities")
+    pkg.depends_on("utilities")
     pkg.depends_on(
-        "nwchemex-parallelzone~python",
+        "parallelzone~python",
         type=("build", "link", "run"),
         when="~python",
     )
     pkg.depends_on(
-        "nwchemex-parallelzone+python",
+        "parallelzone+python",
         type=("build", "link", "run"),
         when="+python",
     )

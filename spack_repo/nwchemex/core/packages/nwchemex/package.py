@@ -40,23 +40,23 @@ class Nwchemex(NWChemExBasePython):
     # TODO: Figure out how to ensure that the correct value for the "friends"
     # variant can be propagated, or switch each friend to a separate variant
     pkg.depends_on(
-        "nwchemex-friendzone",
+        "friendzone",
         type=("build", "link", "run"),
     )
     pkg.depends_on(
-        "nwchemex-scf+python",
+        "scf+python",
         type=("build", "link", "run"),
     )
     pkg.depends_on(
-        "nwchemex-nux+python",
+        "nux+python",
         type=("build", "link", "run"),
     )
     pkg.depends_on(
-        "nwchemex-chemcache+python",
+        "chemcache+python",
         type=("build", "link", "run"),
     )
     pkg.depends_on(
-        "nwchemex-integrals+python",
+        "integrals+python",
         type=("build", "link", "run"),
     )
 

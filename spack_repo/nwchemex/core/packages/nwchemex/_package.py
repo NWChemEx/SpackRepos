@@ -52,47 +52,47 @@ class Nwchemex(NWChemExBasePybindings):
 
     # First-party
     pkg.depends_on(
-        "nwchemex-friendzone+python",
+        "friendzone+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-scf+python",
+        "scf+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-scf~python",
+        "scf~python",
         type=("build", "link", "run"),
         when="~python",
     )
     pkg.depends_on(
-        "nwchemex-nux+python",
+        "nux+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-nux~python",
+        "nux~python",
         type=("build", "link", "run"),
         when="~python",
     )
     pkg.depends_on(
-        "nwchemex-chemcache+python",
+        "chemcache+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-chemcache~python",
+        "chemcache~python",
         type=("build", "link", "run"),
         when="~python",
     )
     pkg.depends_on(
-        "nwchemex-integrals+python",
+        "integrals+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-integrals~python",
+        "integrals~python",
         type=("build", "link", "run"),
         when="~python",
     )

@@ -43,12 +43,12 @@ class Scf(NWChemExBasePybindings):
 
     # First-party
     pkg.depends_on(
-        "nwchemex-simde+python",
+        "simde+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-simde~python",
+        "simde~python",
         type=("build", "link", "run"),
         when="~python",
     )

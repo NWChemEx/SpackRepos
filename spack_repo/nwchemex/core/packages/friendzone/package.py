@@ -61,7 +61,7 @@ class Friendzone(NWChemExBasePython):
 
     # First-party
     pkg.depends_on(
-        "nwchemex-simde+python",
+        "simde+python",
         type=("build", "link", "run"),
     )
 

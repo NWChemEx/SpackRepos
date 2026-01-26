@@ -42,22 +42,22 @@ class Simde(NWChemExBasePybindings):
 
     # First-party
     pkg.depends_on(
-        "nwchemex-chemist+python",
+        "chemist+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-chemist~python",
+        "chemist~python",
         type=("build", "link", "run"),
         when="~python",
     )
     pkg.depends_on(
-        "nwchemex-pluginplay+python",
+        "pluginplay+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-pluginplay~python",
+        "pluginplay~python",
         type=("build", "link", "run"),
         when="~python",
     )
