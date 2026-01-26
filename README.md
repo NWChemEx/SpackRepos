@@ -74,6 +74,11 @@ This GitHub repository provides various package repositories for the NWChemEx pr
 ```
 spack_repo
 └── nwchemex
+    ├── common
+    │   ├── mixins
+    │   │   └── ...
+    │   ├── ...
+    │   └── repo.yaml
     ├── core
     │   ├── packages
     │   │   ├── package_1
@@ -93,6 +98,10 @@ spack_repo
 In Spack, package repositories are namespaced as `nwchemex.<sub_repo_name>` and are defined on disk as `spack_repo/nwchemex/<sub_repo_name>/`. The current package repositories can be found inside [`spack_subrepo/nwchemex/`](https://github.com/NWChemEx/SpackRepos/tree/master/spack_repo/nwchemex).
 
 Packages can be distinguished by prefixing the package name with the package repository namespace it is defined in (e.g. `nwchemex.repo_a.package_1`). This is useful to determine from which repository a package originated, like to confirm that you are using the correct override of a package. However, in general, namespaces are not needed when identifying a package in a package specification and should be avoided. Spack actually strongly discourages using explicit namespacing in `depends_on()` statements of packages, as "It makes the package non-portable and tightly coupled to a specific repository configuration, hindering sharing and composition of repositories." (see warning at the bottom of Spack's [Search Order and Overriding Packages](https://spack.readthedocs.io/en/latest/repositories.html#search-order-and-overriding-packages)).
+
+### `nwchemex.common`
+
+Spack package repository for common components used to build up NWChemEx Spack packages, like various mixin classes composing the package classes.
 
 ### `nwchemex.core`
 
