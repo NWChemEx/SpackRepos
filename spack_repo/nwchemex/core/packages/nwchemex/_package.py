@@ -1,7 +1,6 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2025-2026 NWChemEx Developers.
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+# SPDX-License-Identifier: Apache-2.0
 
 # ----------------------------------------------------------------------------
 # If you submit this package back to Spack as a pull request,
@@ -25,7 +24,7 @@ from spack import package as pkg
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexNwchemex(NWChemExBasePybindings):
+class (NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
     project = "NWChemEx"

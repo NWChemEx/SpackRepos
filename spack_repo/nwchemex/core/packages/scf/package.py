@@ -1,37 +1,19 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2025-2026 NWChemEx Developers.
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install nwchemex-simde
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-simde
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
 
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexNux(NWChemExBasePybindings):
+class Scf(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "NUX"
+    project = "SCF"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.5.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.23.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -48,9 +30,20 @@ class NwchemexNux(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "0.0.5",
-        sha256="58cb55b4975baf3255208333fd4366293efe55b0aeaab3c269f7485f75f2061b",
+        "0.0.23",
+        sha256="b175c15e8c814cd288817c970f4e049c7eab248975ff7c891d8927d7555d0cd8",
     )
+
+    # For building GauXC, I think
+    pkg.depends_on("c", type="build")
+
+    # TODO: Create this package
+    # pkg.depends_on("gauxc")
+    pkg.depends_on("eigen")
+    pkg.depends_on("mpi")
+    pkg.depends_on("py-numpy")
+    # Uncomment when GauXC/Libxc interactions are sorted out
+    # pkg.depends_on("libxc")
 
     # First-party
     pkg.depends_on(

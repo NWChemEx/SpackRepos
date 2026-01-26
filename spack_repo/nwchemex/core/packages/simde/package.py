@@ -1,37 +1,19 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2025-2026 NWChemEx Developers.
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install nwchemex-pluginplay
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-pluginplay
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
 
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexPluginplay(NWChemExBasePybindings):
+class Simde(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "PluginPlay"
+    project = "SimDE"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v1.0.43.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.53.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -48,32 +30,40 @@ class NwchemexPluginplay(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "1.0.46",
-        sha256="22303b38ac6e2459b50a9074697a59fbd01422cdb7db98599f81255f43176597",
+        "0.0.53",
+        sha256="c95b818c0151a38190eebdaf41cc19fe04227ec827aef30293f959751a4b0bed",
     )
 
     pkg.variant(
-        "rocksdb",
+        "sigma",
         default=False,
-        description="Enable RocksDB backend of the cache",
+        description="Enable Sigma for uncertainty tracking",
+        sticky=True,
     )
 
-    # Runtime dependencies
-    pkg.depends_on("boost")
-    pkg.depends_on("libfort enable_testing=false")
-    pkg.depends_on("rocksdb", when="+rocksdb")
     # First-party
-    pkg.depends_on("nwchemex-utilities")
     pkg.depends_on(
-        "nwchemex-parallelzone+python",
+        "nwchemex-chemist+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "nwchemex-parallelzone~python",
+        "nwchemex-chemist~python",
         type=("build", "link", "run"),
         when="~python",
     )
+    pkg.depends_on(
+        "nwchemex-pluginplay+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "nwchemex-pluginplay~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+
+    pkg.depends_on("sigma+eigen", when="+sigma")
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
@@ -89,7 +79,7 @@ class NwchemexPluginplay(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_variant("BUILD_ROCKSDB", "rocksdb"),
+                self.define_from_variant("ENABLE_SIGMA", "sigma"),
             ]
         )
 

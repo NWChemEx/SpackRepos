@@ -1,36 +1,19 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2025-2026 NWChemEx Developers.
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install nwchemex-tensorwrapper
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-tensorwrapper
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexTensorwrapper(NWChemExBasePybindings):
+class Pluginplay(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
-    project = "TensorWrapper"
+    project = "PluginPlay"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.55.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v1.0.43.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -45,43 +28,36 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
     pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
     pkg.license("Apache-2.0", checked_by="zachcran")
 
+    pkg.version("develop", branch="find_package_wrapper")
+
     # Versions from git tags
     pkg.version(
-        "0.0.62",
-        sha256="a526418836e0fff1362d4ff2c9131ae9eb2d509ae53148ac597f8de8444af9ca",
+        "1.0.46",
+        sha256="22303b38ac6e2459b50a9074697a59fbd01422cdb7db98599f81255f43176597",
     )
 
     pkg.variant(
-        "sigma",
+        "rocksdb",
         default=False,
-        description="Enable Sigma for uncertainty tracking",
-        sticky=True,
+        description="Enable RocksDB backend of the cache",
     )
 
     # Runtime dependencies
     pkg.depends_on("boost")
-    pkg.depends_on("eigen", type=("build", "link", "run"))
-    pkg.depends_on("py-numpy", when="+python", type=("build", "run"))
-
+    pkg.depends_on("libfort enable_testing=false")
+    pkg.depends_on("rocksdb", when="+rocksdb")
     # First-party
     pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on(
-        "nwchemex-parallelzone~python",
-        type=("build", "link", "run"),
-        when="~python",
-    )
     pkg.depends_on(
         "nwchemex-parallelzone+python",
         type=("build", "link", "run"),
         when="+python",
     )
     pkg.depends_on(
-        "py-numpy",
+        "nwchemex-parallelzone~python",
         type=("build", "link", "run"),
-        when="+python",
+        when="~python",
     )
-
-    pkg.depends_on("sigma+eigen", when="+sigma")
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
@@ -97,7 +73,7 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_variant("ENABLE_SIGMA", "sigma"),
+                self.define_from_variant("BUILD_ROCKSDB", "rocksdb"),
             ]
         )
 

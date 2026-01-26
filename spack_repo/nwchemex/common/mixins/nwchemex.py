@@ -69,6 +69,13 @@ class NWChemExBaseCXX(NWChemExBaseGit, CMaizePackage):
                 True,
             )
         )
+        # DEBUG REMOVE ME
+        args.append(
+            self.define(
+                "FETCHCONTENT_SOURCE_DIR_NWX_CMAKE",
+                "/home/zachcran/workspaces/nwchemex/projects/spack_packaging/nwx/nwxcmake",
+            )
+        )
 
         return args
 

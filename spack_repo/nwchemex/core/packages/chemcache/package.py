@@ -1,31 +1,13 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2025-2026 NWChemEx Developers.
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install nwchemex-chemist
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-chemist
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# SPDX-License-Identifier: Apache-2.0
 
 from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexChemcache(NWChemExBasePybindings):
+class Chemcache(NWChemExBasePybindings):
     """Generic, helpful C++ classes used by the NWChemEx project."""
 
     project = "ChemCache"
