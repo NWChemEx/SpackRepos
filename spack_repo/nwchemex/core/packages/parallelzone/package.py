@@ -94,7 +94,7 @@ class Parallelzone(NWChemExBasePybindings):
 
         args.extend(
             [
-                self.define_from_pkg.variant("BUILD_PAPI_BINDINGS ", "papi"),
+                self.define_from_variant("BUILD_PAPI_BINDINGS ", "papi"),
             ]
         )
 
