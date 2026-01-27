@@ -12,34 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Copyright Spack Project Developers. See COPYRIGHT file for details.
-#
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
-#
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
-#
-#     spack install py-qcengine
-#
-# You can edit this file again by typing:
-#
-#     spack edit py-qcengine
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
-
 from spack import package as pkg
 from spack_repo.builtin.build_systems.python import PythonPackage
 
 
 class PyQcengine(PythonPackage):
     """QCEngine provides a wrapper to ingest and produce QCSchema for a variety
-    of quantum chemistry programs."""
+    of quantum chemistry programs.
+    """
 
     homepage = "https://github.com/MolSSI/QCEngine"
     url = "https://github.com/MolSSI/QCEngine/archive/refs/tags/v0.29.0.tar.gz"
