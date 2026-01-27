@@ -16,8 +16,6 @@ from spack import package as pkg
 
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
-# TODO: Use from spack import package as pkg like other packages
-
 
 class Parallelzone(NWChemExBasePybindings):
     """You're travelling through another dimension, a dimension not only of
