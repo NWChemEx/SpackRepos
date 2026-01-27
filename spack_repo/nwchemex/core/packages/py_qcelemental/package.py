@@ -38,7 +38,9 @@ from spack_repo.builtin.build_systems.python import PythonPackage
 
 
 class PyQcelemental(PythonPackage):
-    """FIXME: Put a proper description of your package here."""
+    """Periodic table, physical constants, and molecule parsing for quantum
+    chemistry.
+    """
 
     homepage = "https://github.com/MolSSI/QCElemental"
     url = "https://github.com/MolSSI/QCElemental/archive/refs/tags/v0.29.0.tar.gz"
