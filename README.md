@@ -135,6 +135,28 @@ spack config edit repos
 
 For more information, see the Spack's [Search Order and Overriding Packages](https://spack.readthedocs.io/en/latest/repositories.html#search-order-and-overriding-packages).
 
+## Development/Testing
+
+- Set up the environment
+  1. `spack env create nwchemex-stack`
+  2. `spack env activate nwchemex-stack`
+  3. `spack config edit`
+  4. Paste the contents of `nwchemex-stack.yaml`
+  5. Check for TODOs in the file
+- Concretize the environment packages: `spack concretize`
+- Build the packages
+  - For most packages: `spack install --test=root --fail-fast --verbose --only-concrete <package>`
+  - For FriendZone and NWChemEx, exclude `--test=root`: `spack install --fail-fast --verbose --only-concrete <package>`
+
+### Tips
+
+- Run `spack clean` as necessary after failed builds/installs.
+  - Make sure to clear the Python cache as well for odd import errors: `spack clean -p`.
+- If changing the environment package matrices or `package.py` files, you likely need to uninstall any dependant packages from the NWChemEx stack, reconcretize all packages, and build up the stack again.
+  - `spack uninstall --all <package>`
+  - `spack deconcretize`
+  - `spack concretize --force`
+
 ## Helpful Spack Commands
 
 For a broader list of helpful Spack repository management commands, see Spack's [The `spack repo` Command](https://spack.readthedocs.io/en/latest/repositories.html#the-spack-repo-command).
