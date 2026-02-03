@@ -51,7 +51,7 @@ class Scf(NWChemExBasePybindings):
     # pkg.depends_on("gauxc")
     pkg.depends_on("eigen")
     pkg.depends_on("mpi")
-    pkg.depends_on("py-numpy")
+    pkg.depends_on("py-numpy@1")
     # Uncomment when GauXC/Libxc interactions are sorted out
     # pkg.depends_on("libxc")
 
