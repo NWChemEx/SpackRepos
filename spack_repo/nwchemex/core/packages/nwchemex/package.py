@@ -1,0 +1,85 @@
+# Copyright 2026 NWChemEx-Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from spack import package as pkg
+
+from spack_repo.nwchemex.common.mixins import NWChemExBasePython
+
+
+class Nwchemex(NWChemExBasePython):
+    """A top-level, user-focused, conglomerate repo for the NWChemEx project."""
+
+    project = "NWChemEx"
+
+    homepage = f"https://github.com/NWChemEx/{project}"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.27.tar.gz"
+    git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
+
+    # Versions are hosted under GitHub tags right now
+    list_url = f"https://github.com/NWChemEx/{project}/tags"
+    # To get older versions, uncomment 'list_depth' below and set it to a
+    # value >0 to get list_depth + 1 pages of versions.
+    # WARNING: This increases the number of links that the search spider will
+    # follow, meaning even 'list_depth = 1' may increase the search time
+    # significantly!
+    # list_depth = 1
+
+    pkg.maintainers("ryanmrichard", "jwaldrop107", "zachcran")
+    pkg.license("Apache-2.0", checked_by="zachcran")
+
+    # Versions from git tags
+    pkg.version("python_package", branch="python_package")
+    pkg.version(
+        "0.0.27",
+        sha256="1bd22792ca0fbe74f95b2065f2f2d674f2c62d186a340150e8ed1e0f27c2d334",
+    )
+
+    # TODO: Many of these may be able to be switched to ("build", "run")
+    # instead of ("build", "link", "run")
+    pkg.depends_on("python@3.10:", type=("build", "run"))
+    pkg.depends_on("py-setuptools", type="build")
+
+    # First-party
+    # TODO: Figure out how to ensure that the correct value for the "friends"
+    # variant can be propagated, or switch each friend to a separate variant
+    pkg.depends_on(
+        "friendzone",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "scf+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "nux+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "chemcache+python",
+        type=("build", "link", "run"),
+    )
+    pkg.depends_on(
+        "integrals+python",
+        type=("build", "link", "run"),
+    )
+
+    # TODO: Add sanity checks
+    # Start with CMaize sanity check locations
+    # sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(
+    #     project.lower()
+    # )
+    # sanity_check_is_file = NWChemExBasePybindings.cmaize_sanity_check_files(
+    #     project.lower()
+    # )
+    # Append more sanity checks as needed

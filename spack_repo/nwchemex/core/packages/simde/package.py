@@ -1,36 +1,32 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2026 NWChemEx-Project
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
+# http://www.apache.org/licenses/LICENSE-2.0
 #
-#     spack install nwchemex-tensorwrapper
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-tensorwrapper
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexTensorwrapper(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+class Simde(NWChemExBasePybindings):
+    """The Simulation Development Environment (SimDE) includes software
+    designed to facilitate the creation of modular computational chemistry
+    software.
+    """
 
-    project = "TensorWrapper"
+    project = "SimDE"
 
     homepage = f"https://github.com/NWChemEx/{project}"
-    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.55.tar.gz"
+    url = f"https://github.com/NWChemEx/{project}/archive/refs/tags/v0.0.53.tar.gz"
     git = f"https://github.com/NWChemEx/{project}.git"  # For the latest commit
 
     # Versions are hosted under GitHub tags right now
@@ -47,8 +43,8 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
 
     # Versions from git tags
     pkg.version(
-        "0.0.62",
-        sha256="a526418836e0fff1362d4ff2c9131ae9eb2d509ae53148ac597f8de8444af9ca",
+        "0.0.53",
+        sha256="c95b818c0151a38190eebdaf41cc19fe04227ec827aef30293f959751a4b0bed",
     )
 
     pkg.variant(
@@ -58,13 +54,27 @@ class NwchemexTensorwrapper(NWChemExBasePybindings):
         sticky=True,
     )
 
-    # Runtime dependencies
-    pkg.depends_on("boost")
-    pkg.depends_on("eigen")
-
     # First-party
-    pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
+    pkg.depends_on(
+        "chemist+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "chemist~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+    pkg.depends_on(
+        "pluginplay+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "pluginplay~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     pkg.depends_on("sigma+eigen", when="+sigma")
 

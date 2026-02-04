@@ -1,31 +1,24 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2026 NWChemEx-Project
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
+# http://www.apache.org/licenses/LICENSE-2.0
 #
-#     spack install nwchemex-simde
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-simde
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexIntegrals(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+class Integrals(NWChemExBasePybindings):
+    """Generic integral API and implementations for specific integral libraries."""
 
     project = "Integrals"
 
@@ -67,7 +60,16 @@ class NwchemexIntegrals(NWChemExBasePybindings):
     # pkg.depends_on("sigma+eigen", when="+sigma")
 
     # First-party
-    pkg.depends_on("nwchemex-simde")
+    pkg.depends_on(
+        "simde+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "simde~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Start with CMaize sanity check locations
     sanity_check_is_dir = NWChemExBasePybindings.cmaize_sanity_check_dirs(

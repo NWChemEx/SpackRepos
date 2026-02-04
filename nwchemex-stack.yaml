@@ -1,0 +1,153 @@
+# Copyright 2026 NWChemEx-Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# NWChemEx stack Spack Environment file.
+#
+# It describes the combinatorial build of the NWChemEx stack.
+spack:
+
+  # General definitions for various flags and options used in the
+  # combinatorial builds
+  definitions:
+  - shared: [+shared]
+  - pybindings: [+python, ~python]
+  - sigmas: [+sigma, ~sigma]
+  # Eigen version that actually works for all builds
+  - eigens: [eigen@git.2e76277bd049f7bec36b0f908c69734a42c5234f=master]
+  - eigenflags: [+eigen ^eigen@git.2e76277bd049f7bec36b0f908c69734a42c5234f=master, ~eigen]
+  - common_deps: [catch2@3.8.0]
+  - libint_tuning: [tune=cp2k-lmax-4]
+
+  # Compiler toolchains for baseline build testing.
+  #
+  # See https://spack.readthedocs.io/en/latest/advanced_topics.html#defining-and-using-toolchains
+  toolchains:
+    # Force using only gcc@<version> for C, CXX, and Fortran
+    gcc14_all:
+    - spec: '%c=gcc@14'
+      when: '%c'
+    - spec: '%cxx=gcc@14'
+      when: '%cxx'
+    - spec: '%fortran=gcc@14'
+      when: '%fortran'
+
+    # Force using only llvm@<version> for C, CXX, and Fortran
+    llvm21_all:
+    - spec: '%c=llvm@21'
+      when: '%c'
+    - spec: '%cxx=llvm@21'
+      when: '%cxx'
+    - spec: '%fortran=llvm@21'
+      when: '%fortran'
+
+  # Definition of NWChemEx stack package combinations
+  specs:
+  # libint pinning to try to ensure that packages all use the same version
+  - matrix:
+    - ['libint@2.6:']
+    - [$libint_tuning]
+    - ['%gcc14_all']
+  - matrix:
+    - [sigma]
+    - ['@main']
+    - ['%gcc14_all']
+    - [$eigenflags]
+  - matrix:
+    - [utilities]
+    - ['@master']
+    - [$shared]
+    - ['%gcc14_all']
+    - [$^common_deps]
+  - matrix:
+    - [parallelzone, pluginplay]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - ['%gcc14_all']
+    - [$^common_deps]
+  - matrix:
+    - [tensorwrapper]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - [$sigmas]
+    - ['%gcc14_all']
+    - [$^eigens]
+    - [$^common_deps]
+  - matrix:
+    - [chemist, simde, integrals]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - [$sigmas]
+    - ['%gcc14_all']
+    - [$^eigens]
+    - [$^common_deps]
+  - matrix:
+    - [scf]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - ['%gcc14_all']
+    - [$^eigens]
+    - [$^common_deps]
+  - matrix:
+    - [chemcache]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - ['%gcc14_all']
+    - [$^common_deps]
+  - matrix:
+    - [nux]
+    - ['@master']
+    - [$shared]
+    - [$pybindings]
+    - ['%gcc14_all']
+    - [$^common_deps]
+  - matrix:
+    - [friendzone]
+    - ['@master']
+    - [friends=none, 'friends=nwchem,ase']
+    - ['%gcc14_all']
+  - matrix:
+    - [nwchemex]
+    - ['@master']
+    - ['%gcc14_all']
+  # TODO: Uncomment and provide toolchain path if needed
+  # env_vars:
+  #   set:
+  #     # Recommended way to set toolchain file for nwchemex.* packages
+  #     CMAKE_TOOLCHAIN_FILE: <path>/<to>/toolchain.cmake
+  view: false
+  concretizer:
+    unify: when_possible
+  # TODO: Uncomment and provide alternative tmp path if needed
+  # config:
+  #   # Give the tmp directory more room if your /tmp partition is not large
+  #   # enough for 10+ GB compiler builds
+  #   build_stage: <path>/<to>/<alternative>/tmpdir
+  packages:
+    gcc:
+      externals: []
+    llvm:
+      externals: []
+  # Likely set by `spack repo add` commands (see README.md)
+  # repos:
+  #   nwchemex:
+  #     git: https://github.com/NWChemEx/SpackRepos.git
+  #     destination: <path>/<to>/nwchemex
+  #   qcuncertainty:
+  #     git: https://github.com/QCUncertainty/spack-repo.git
+  #     destination: <path>/<to>/qcuncertainty

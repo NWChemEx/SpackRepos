@@ -1,31 +1,27 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright 2026 NWChemEx-Project
 #
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
-
-# ----------------------------------------------------------------------------
-# If you submit this package back to Spack as a pull request,
-# please first remove this boilerplate and all FIXME comments.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This is a template package file for Spack.  We've put "FIXME"
-# next to all the things you'll want to change. Once you've handled
-# them, you can save this file and test your package like this:
+# http://www.apache.org/licenses/LICENSE-2.0
 #
-#     spack install nwchemex-chemist
-#
-# You can edit this file again by typing:
-#
-#     spack edit nwchemex-chemist
-#
-# See the Spack documentation for more information on packaging.
-# ----------------------------------------------------------------------------
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 from spack import package as pkg
+
 from spack_repo.nwchemex.common.mixins import NWChemExBasePybindings
 
 
-class NwchemexChemist(NWChemExBasePybindings):
-    """Generic, helpful C++ classes used by the NWChemEx project."""
+class Chemist(NWChemExBasePybindings):
+    """Chemist provides chemistry-related data structures. This includes data
+    structures for chemistry concepts including atoms, molecules, and
+    atomic-orbital basis sets.
+    """
 
     project = "Chemist"
 
@@ -62,9 +58,28 @@ class NwchemexChemist(NWChemExBasePybindings):
     pkg.depends_on("boost")
 
     # First-party
-    pkg.depends_on("nwchemex-utilities")
-    pkg.depends_on("nwchemex-parallelzone")
-    pkg.depends_on("nwchemex-tensorwrapper")
+    pkg.depends_on("utilities")
+    pkg.depends_on(
+        "parallelzone+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "parallelzone~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
+
+    pkg.depends_on(
+        "tensorwrapper+python",
+        type=("build", "link", "run"),
+        when="+python",
+    )
+    pkg.depends_on(
+        "tensorwrapper~python",
+        type=("build", "link", "run"),
+        when="~python",
+    )
 
     # Although we have a variant, technically it is not a direct dependency
     # of this package

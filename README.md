@@ -1,3 +1,19 @@
+<!--
+  ~ Copyright 2026 NWChemEx-Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
 # NWChemEx Spack Package Repositories
 
 **WARNING:** Under heavy construction and subject to change at any moment. Not ready for use yet!
@@ -74,6 +90,11 @@ This GitHub repository provides various package repositories for the NWChemEx pr
 ```
 spack_repo
 └── nwchemex
+    ├── common
+    │   ├── mixins
+    │   │   └── ...
+    │   ├── ...
+    │   └── repo.yaml
     ├── core
     │   ├── packages
     │   │   ├── package_1
@@ -94,6 +115,10 @@ In Spack, package repositories are namespaced as `nwchemex.<sub_repo_name>` and 
 
 Packages can be distinguished by prefixing the package name with the package repository namespace it is defined in (e.g. `nwchemex.repo_a.package_1`). This is useful to determine from which repository a package originated, like to confirm that you are using the correct override of a package. However, in general, namespaces are not needed when identifying a package in a package specification and should be avoided. Spack actually strongly discourages using explicit namespacing in `depends_on()` statements of packages, as "It makes the package non-portable and tightly coupled to a specific repository configuration, hindering sharing and composition of repositories." (see warning at the bottom of Spack's [Search Order and Overriding Packages](https://spack.readthedocs.io/en/latest/repositories.html#search-order-and-overriding-packages)).
 
+### `nwchemex.common`
+
+Spack package repository for common components used to build up NWChemEx Spack packages, like various mixin classes composing the package classes.
+
 ### `nwchemex.core`
 
 Spack package repository for core (first-party) packages in the NWChemEx software stack.
@@ -109,6 +134,28 @@ spack config edit repos
 ```
 
 For more information, see the Spack's [Search Order and Overriding Packages](https://spack.readthedocs.io/en/latest/repositories.html#search-order-and-overriding-packages).
+
+## Development/Testing
+
+- Set up the environment
+  1. `spack env create nwchemex-stack`
+  2. `spack env activate nwchemex-stack`
+  3. `spack config edit`
+  4. Paste the contents of `nwchemex-stack.yaml`
+  5. Check for TODOs in the file
+- Concretize the environment packages: `spack concretize`
+- Build the packages
+  - For most packages: `spack install --test=root --fail-fast --verbose --only-concrete <package>`
+  - For FriendZone and NWChemEx, exclude `--test=root`: `spack install --fail-fast --verbose --only-concrete <package>`
+
+### Tips
+
+- Run `spack clean` as necessary after failed builds/installs.
+  - Make sure to clear the Python cache as well for odd import errors: `spack clean -p`.
+- If changing the environment package matrices or `package.py` files, you likely need to uninstall any dependant packages from the NWChemEx stack, reconcretize all packages, and build up the stack again.
+  - `spack uninstall --all <package>`
+  - `spack deconcretize`
+  - `spack concretize --force`
 
 ## Helpful Spack Commands
 
